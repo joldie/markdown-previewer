@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import marked from 'marked';
 import './stylesheet.css';
 
 class App extends Component {
@@ -16,14 +17,20 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
-        <div>
+      <div className='pageWrapper'>
+        <header>
+          <h1>Markdown Previewer</h1>
+        </header>
+        <div id='input' className='textWindow'>
           <Editor markdown={this.state.markdown}
             onChange={this.handleChange} />
         </div>
-        <div>
+        <div id='output' className='textWindow'>
           <Preview markdown={this.state.markdown} />
         </div>
+        <footer>
+          Footer text here.
+        </footer>
       </div>
     );
   }
@@ -31,16 +38,14 @@ class App extends Component {
 
 const Editor = (props) => {
   return (
-    <textarea id="editor"
-      value={props.markdown}
-      onChange={props.onChange}
-      type="text" />
+    <textarea id="editor" value={props.markdown} onChange={props.onChange} type="text" className='fullWidth' />
   )
 }
 
 const Preview = (props) => {
   return (
-    <div id='preview' />
+    // dangerouslySetInnerHTML used in React as editor input not sanitized
+    <div id='preview' dangerouslySetInnerHTML={{ __html: marked(props.markdown) }} />
   )
 }
 
