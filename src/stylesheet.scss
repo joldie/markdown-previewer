@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 $fonts: 'Raleway',
 sans-serif;
-$primary-color: #009688;
-$alt-color: #fff;
+$primary-color: #13567a;
+$alt-color: #F0810F;
+$alt-color-light: rgb(238,
+218,
+198);
 * {
   margin: 0;
   padding: 0;
@@ -21,9 +24,32 @@ body,
   width: 100%;
   height: 100%;
   display: grid;
+}
+
+.grid-side-by-side {
   grid-template-columns: 2% 1fr 2% 1fr 2%;
   grid-template-rows: 50px 1fr 50px;
   grid-template-areas: ". header header header ." ". input . output ." ". footer footer footer .";
+}
+
+.grid-editor-maximised {
+  grid-template-columns: 2% 1fr 2%;
+  grid-template-rows: 50px 1fr 50px;
+  grid-template-areas: ". header ." ". input ." ". footer .";
+}
+
+.grid-previewer-maximised {
+  grid-template-columns: 2% 1fr 2%;
+  grid-template-rows: 50px 1fr 50px;
+  grid-template-areas: ". header ." ". output ." ". footer .";
+}
+
+.displayNone {
+  display: none;
+}
+
+.displayBlock {
+  display: block;
 }
 
 header {
@@ -59,6 +85,9 @@ header {
 
 .toolbar {
   grid-row: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   font-family: $fonts;
   font-weight: bold;
   color: $primary-color;
@@ -72,6 +101,7 @@ header {
   padding: 5px;
   resize: none;
   overflow-y: scroll;
+  background: $alt-color-light;
   border: 1px solid #aaa;
 }
 
@@ -79,12 +109,12 @@ header {
   grid-row: 2;
   height: 100%;
   padding: 5px;
+  background: $alt-color-light;
   border: 1px solid #aaa;
   overflow-y: auto;
 }
 
 #switch-button {
-  grid-area: button;
   display: none;
 }
 
@@ -103,6 +133,11 @@ footer {
   color: $alt-color;
   text-align: center;
   padding: 5px;
+  a {
+    font-weight: 500;
+    text-decoration: none;
+    color: $alt-color;
+  }
 }
 
 @media (max-width: 800px) {
@@ -118,6 +153,7 @@ footer {
     margin: 0 auto;
   }
   #switch-button {
+    grid-area: button;
     display: block;
     width: 96%;
     margin: 5px auto;
