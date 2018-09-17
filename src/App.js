@@ -4,6 +4,13 @@ import './stylesheet.css';
 
 const mql = window.matchMedia(`(max-width: 800px)`);
 
+const renderer = new marked.Renderer();
+
+// Allow line breaks with return button
+marked.setOptions({
+  breaks: true
+});
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -129,50 +136,66 @@ const Toolbar = (props) => {
 
 const Editor = (props) => {
   return (
-    <textarea id="editor" value={props.markdown} onChange={props.onChange} type="text" className='fullWidth' />
+    <textarea id="editor" value={props.markdown} onChange={props.onChange} type="text" />
   )
 }
 
 const Preview = (props) => {
   return (
     // dangerouslySetInnerHTML used in React as editor input not sanitized
-    <div id='preview' dangerouslySetInnerHTML={{ __html: marked(props.markdown) }} />
+    <div id='preview' dangerouslySetInnerHTML={{ __html: marked(props.markdown, { renderer: renderer }) }} />
   )
 }
 
 const inputText =
   `# Heading
 
-  ## Sub-heading
-  
-  Paragraphs are separated
-  by a blank line.
-  
-  Two spaces at the end of a line  
-  produces a line break.
-  
-  Text attributes _italic_, 
-  **bold**.
-  
-  Horizontal rule:
-  
-  ---
-  
-  Bullet list:
-  
-    * apples
-    * oranges
-    * pears
-  
-  Numbered list:
-  
-    1. wash
-    2. rinse
-    3. repeat
-  
-  A [link](http://example.com).
-  
-  Inline <abbr title="Hypertext Markup Language">HTML</abbr> is supported.
+## Sub-heading
+
+Paragraphs are separated
+by a blank line.
+
+Two spaces at the end of a line  
+produces a line break.
+
+Text attributes _italic_, 
+**bold**.
+
+Horizontal rule:
+
+---
+
+> Block quotes
+
+Bullet list:
+
+  - apples
+  - oranges
+  - pears
+
+Numbered list:
+
+  1. wash
+  2. rinse
+  3. repeat
+
+Inline code, \`<div></div>\`, between 2 backticks.
+
+\`\`\`
+// Multi-line code:
+
+function anotherExample(firstLine, lastLine) {
+  if (firstLine == '\`\`\`' && lastLine == '\`\`\`') {
+    return multiLineCode;
+  }
+}
+\`\`\`
+
+A [link](http://example.com).
+
+![React Logo w/ Text](https://goo.gl/Umyytc)
+
+Inline <abbr title="Hypertext Markup Language">HTML</abbr> is supported.
 `
 
 export default App;
